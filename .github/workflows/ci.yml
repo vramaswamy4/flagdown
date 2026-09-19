@@ -12,7 +12,7 @@ jobs:
       - name: Detect Go modules
         id: mods
         run: |
-          if ls **/go.mod go.mod >/dev/null 2>&1; then echo "found=true" >> "$GITHUB_OUTPUT"; else echo "found=false" >> "$GITHUB_OUTPUT"; fi
+          if [ -n "$(find . -name go.mod -not -path '*/vendor/*' -print -quit)" ]; then echo "found=true" >> "$GITHUB_OUTPUT"; else echo "found=false" >> "$GITHUB_OUTPUT"; fi
         shell: bash
       - uses: actions/setup-go@v5
         if: steps.mods.outputs.found == 'true'

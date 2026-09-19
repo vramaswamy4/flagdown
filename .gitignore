@@ -9,6 +9,7 @@ vendor/
 .env.*
 !.env.example
 # tooling
+.direnv/
 .idea/
 .vscode/
 .DS_Store
