@@ -11,7 +11,11 @@ k8s_yaml('./infra/development/k8s/app-config.yaml')
 ### End of K8s Config ###
 ### API Gateway ###
 
-gateway_compile_cmd = 'CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o build/api-gateway ./services/api-gateway'
+# GOARCH is deliberately unset: it defaults to the host arch, so the binary is
+# native (arm64 on Apple Silicon) instead of amd64 running under emulation.
+# infra/production/ compiles its own binary in a multi-stage build, so this
+# only affects local dev.
+gateway_compile_cmd = 'CGO_ENABLED=0 GOOS=linux go build -o build/api-gateway ./services/api-gateway'
 if os.name == 'nt':
   gateway_compile_cmd = './infra/development/docker/api-gateway-build.bat'
 
@@ -42,7 +46,7 @@ k8s_resource('api-gateway', port_forwards=8081,
 ### End of API Gateway ###
 ### Trip Service ###
 
-trip_compile_cmd = 'CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o build/trip-service ./services/trip-service/cmd/main.go'
+trip_compile_cmd = 'CGO_ENABLED=0 GOOS=linux go build -o build/trip-service ./services/trip-service/cmd/main.go'
 if os.name == 'nt':
  trip_compile_cmd = './infra/development/docker/trip-build.bat'
 
