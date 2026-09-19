@@ -2,6 +2,12 @@
 
 One entry per non-obvious choice. Newest first. Format: what, why, what it was chosen over, what would change the decision.
 
+## 2026-09-19 — minikube must run the docker container runtime, not containerd
+**What:** Start the local cluster with `minikube start --driver=docker --container-runtime=docker`. Not the bare `minikube start` default.
+**Why:** Tilt avoids a registry on local clusters by building images straight into the cluster's own Docker daemon (`minikube docker-env`). minikube 1.39 defaults to containerd, which has no such daemon, so Tilt silently falls back to pushing — and `ride-sharing/api-gateway` resolves to Docker Hub, where I own nothing. The failure reads as a credentials problem (`insufficient_scope`) and has nothing to do with credentials. The course predates this default.
+**Over:** Enabling Docker Desktop's built-in Kubernetes (the course says not to), or running minikube's registry addon with `default_registry` in the Tiltfile (more moving parts, and it edits a file the videos rely on).
+**Would change if:** Tilt gains native image loading for containerd-backed minikube, which would make the default runtime fine.
+
 ## 2026-09-18 — Frontend rebuild waits for extension 5
 **What:** Leave the starter's Next.js frontend alone during the course build. The UI work happens in extension 5 (live map), and it adds routes rather than rewriting the instructor's components in place.
 **Why:** There is no backend yet, so "preserve functionality" isn't verifiable — a rewrite now would be blind, and breakage would surface mid-lecture with no way to tell whose bug it is. The course also edits these files as it goes, so a revamped tree would diverge from every video. Extension 5 does the same work once there's real data to show, which is the better story anyway: a map fed by my own Kafka→Redis pipeline, not a restyle of someone else's.
