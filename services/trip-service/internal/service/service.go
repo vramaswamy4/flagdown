@@ -40,6 +40,7 @@ func (s *service) GetRoute(ctx context.Context, pickup *types.Coordinate, destin
 	)
 
 	resp, err := http.Get(url)
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to fetch route from OSRM API: %v", err)
 	}
