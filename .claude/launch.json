@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/vinithramaswamy/Dev/vramaswamy4.github.io", "run", "dev", "--", "--port", "4321"],
+      "port": 4321
+    },
+    {
+      "name": "ride-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/vinithramaswamy/Dev/ride-dispatch/web", "run", "dev", "--", "--port", "3000"],
+      "port": 3000
+    }
+  ]
+}
